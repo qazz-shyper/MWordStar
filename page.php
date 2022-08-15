@@ -25,19 +25,11 @@ $this->need('components/header.php');
                         <a itemprop="url" href="<?php $this->permalink() ?>"><?php $this->title() ?></a>
                     </h1>
                 </header>
-                <?php if ($this->options->headerImage && in_array('post', $this->options->headerImage)): ?>
-                    <?php $img = postImg($this); ?>
-                    <?php if ($img): ?>
-                        <div class="header-img border-top">
-                            <?php if ($this->options->headerImageProportion == 'not-fixed' or $this->options->headerImageProportion == 'post-page-fixed'): ?>
-                                <a target="<?php $this->options->listLinkOpen(); ?>" href="<?php $this->permalink(); ?>">
-                                    <img src="<?php echo $img; ?>" alt="<?php $this->title(); ?>的头图" style="background-color: <?php echo headerImageBgColor($this->options->headerImageBg); ?>;">
-                                </a>
-                            <?php else: ?>
-                                <a tabindex="-1" aria-hidden="true" href="<?php $this->permalink() ?>" aria-label="<?php $this->title() ?>的头图" style="background-image: url(<?php echo $img; ?>);background-color: <?php echo headerImageBgColor($this->options->headerImageBg); ?>;" class="fixed"></a>
-                            <?php endif; ?>
-                        </div>
-                    <?php endif; ?>
+                <?php $headerImg = headerImageDisplay($this, $this->options->headerImage, $this->options->headerImageUrl); ?>
+                <?php if ($headerImg): ?>
+                    <div class="header-img border-top">
+                        <a tabindex="-1" aria-hidden="true" href="<?php $this->permalink() ?>" aria-label="<?php $this->title() ?>的头图" style="background-image: url(<?php echo $headerImg; ?>);background-color: <?php echo headerImageBgColor($this->options->headerImageBg); ?>;" class="fixed"></a>
+                    </div>
                 <?php endif; ?>
                 <div class="article-info clearfix border-bottom border-top" role="group" aria-label="页面信息">
                     <!--时间-->
@@ -57,8 +49,13 @@ $this->need('components/header.php');
                     </div>
                 </div>
                 <article>
-                    <div data-target="<?php $this->options->postLinkOpen(); ?>" class="post-content" data-color="<?php echo $color['link']; ?>">
-                        <?php $this->content(); ?>
+                    <div data-target="<?php $this->options->postLinkOpen(); ?>" class="post-content" data-color="<?php echo $color['link']; ?>" data-code-line-num="<?php $this->options->codeLineNum(); ?>">
+                        <?php $directoryOptions = getDirectoryOptions($this->fields->directory, $this->options->directory); ?>
+                        <?php if (!$directoryOptions): ?>
+                            <?php $this->content(); ?>
+                        <?php else: ?>
+                            <?php articleDirectory($this->content, $directoryOptions); ?>
+                        <?php endif; ?>
                     </div>
                 </article>
                 <?php $this->need('components/comments.php'); ?>

@@ -36,19 +36,11 @@ $this->need('components/header.php');
                         <a itemprop="url" href="<?php $this->permalink(); ?>" rel="bookmark"><?php $this->title(); ?></a>
                     </h1>
                 </header>
-                <?php if ($this->options->headerImage && in_array('post', $this->options->headerImage)): ?>
-                    <?php $img = postImg($this); ?>
-                    <?php if ($img): ?>
-                        <div class="header-img border-top">
-                            <?php if ($this->options->headerImageProportion == 'not-fixed' or $this->options->headerImageProportion == 'post-page-fixed'): ?>
-                                <a target="<?php $this->options->listLinkOpen(); ?>" href="<?php $this->permalink(); ?>">
-                                    <img src="<?php echo $img; ?>" alt="<?php $this->title(); ?>的头图" style="background-color: <?php echo headerImageBgColor($this->options->headerImageBg); ?>;">
-                                </a>
-                            <?php else: ?>
-                                <a tabindex="-1" aria-hidden="true" href="<?php $this->permalink() ?>" aria-label="<?php $this->title() ?>的头图" style="background-image: url(<?php echo $img; ?>);background-color: <?php echo headerImageBgColor($this->options->headerImageBg); ?>;" class="fixed"></a>
-                            <?php endif; ?>
-                        </div>
-                    <?php endif; ?>
+                <?php $headerImg = headerImageDisplay($this, $this->options->headerImage, $this->options->headerImageUrl); ?>
+                <?php if ($headerImg): ?>
+                    <div class="header-img border-top">
+                        <a tabindex="-1" aria-hidden="true" href="<?php $this->permalink() ?>" aria-label="<?php $this->title() ?>的头图" style="background-image: url(<?php echo $headerImg; ?>);background-color: <?php echo headerImageBgColor($this->options->headerImageBg); ?>;" class="fixed"></a>
+                    </div>
                 <?php endif; ?>
                 <div class="article-info clearfix border-bottom border-top" role="group" aria-label="文章信息">
                     <!--时间-->
@@ -90,8 +82,16 @@ $this->need('components/header.php');
                 </div>
                 <!--文章内容-->
                 <article>
-                    <div data-target="<?php $this->options->postLinkOpen(); ?>" data-color="<?php echo $color['link']; ?>" class="post-content">
-                        <?php $this->options->atalog == 'show'?catalog($this->content):$this->content(); ?>
+                    <?php if (is_numeric($this->fields->expired) && (int)$this->fields->expired > 0 && $this->created + (int)$this->fields->expired * 86400 < time()): ?>
+                        <div class="alert alert-info" role="alert">这篇文章发布于 <?php echo getDays($this->created, time()); ?> 天前，其中的信息可能已经有所发展或是发生改变！</div>
+                    <?php endif; ?>
+                    <div data-target="<?php $this->options->postLinkOpen(); ?>" data-color="<?php echo $color['link']; ?>" class="post-content" data-code-line-num="<?php $this->options->codeLineNum(); ?>">
+                        <?php $directoryOptions = getDirectoryOptions($this->fields->directory, $this->options->directory); ?>
+                        <?php if (!$directoryOptions): ?>
+                            <?php $this->content(); ?>
+                        <?php else: ?>
+                            <?php articleDirectory($this->content, $directoryOptions); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="clearfix">
                         <?php if ($this->options->modified == 'show'): ?>
@@ -133,26 +133,6 @@ $this->need('components/header.php');
         <?php $this->need('components/sidebar.php'); ?>
     </div>
 </div>
-<div id="max-img" role="dialog">
-    <img src="" alt="" class="shadow-lg">
-    <div class="btn-group" role="group" aria-label="图片工具栏" id="img-control">
-        <button type="button" class="btn btn-dark big" title="放大" aria-label="放大">
-            <i class="icon-zoom-in"></i>
-        </button>
-        <button type="button" class="btn btn-dark small" title="缩小" aria-label="缩小">
-            <i class="icon-zoom-out"></i>
-        </button>
-        <button type="button" class="btn btn-dark spin-left" title="左旋转90度" aria-label="左旋转90度">
-            <i class="icon-undo"></i>
-        </button>
-        <button type="button" class="btn btn-dark spin-right" title="右旋转90度" aria-label="右旋转90度">
-            <i class="icon-redo"></i>
-        </button>
-        <button type="button" class="btn btn-dark hide-img" title="关闭大图（ESC）" aria-label="关闭大图（ESC）">
-            <i class="icon-cancel-circle"></i>
-        </button>
-    </div>
-</div>
 <div class="modal fade bd-example-modal-sm" id="share-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content <?php echo $rounded; ?>">
@@ -171,7 +151,7 @@ $this->need('components/header.php');
                         <span>分享到新浪微博</span>
                     </a>
                     <a target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=<?php $this->permalink(); ?>&title=<?php echo $this->title(); ?>&site=<?php $this->options->siteUrl(); ?>&summary=<?php $this->fields->summaryContent?$this->fields->summaryContent():$this->excerpt($this->options->summary, '...'); ?>" class="btn btn-primary btn-block <?php echo $rounded; ?>">
-                        <i class="icon-qzone"></i>
+                        <i class="icon-qzone-logo"></i>
                         <span>分享到QQ空间</span>
                     </a>
                 </div>
@@ -179,4 +159,5 @@ $this->need('components/header.php');
         </div>
     </div>
 </div>
+<?php require_once 'components/max-img.php'; ?>
 <?php $this->need('components/footer.php'); ?>

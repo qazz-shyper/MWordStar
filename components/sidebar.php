@@ -21,10 +21,11 @@ $components = explode(',', $components);
             <section class="border <?php echo in_array('HideBlogInfo', $sidebarM)?$hideClass:''; ?> <?php echo $rounded; ?>">
                 <h4>博客信息</h4>
                 <div class="personal-information pt-2">
+                    <?php if (!$this->options->nickname or !$this->options->birthday or !$this->options->avatarUrl) $userInfo = getAdminInfo(); ?>
                     <div class="user">
-                        <img src="<?php $this->options->avatarUrl?$this->options->avatarUrl():$this->options->themeUrl('assets/img/avatar.png'); ?>" alt="<?php echo $this->options->nickname?$this->options->nickname . '的头像':$this->options->title . '的头像'; ?>" class="rounded-circle avatar">
+                        <img src="<?php $this->options->avatarUrl?$this->options->avatarUrl():gravatarUrl($userInfo['mail'], 72); ?>" alt="<?php echo $this->options->nickname?$this->options->nickname . '的头像':$this->options->title . '的头像'; ?>" class="rounded-circle avatar">
                         <div class="p-2">
-                            <a class="user-name mt-2 <?php echo $color['link']; ?>" target="_blank" href="<?php echo $this->options->nicknameUrl?$this->options->nicknameUrl:$this->options->siteUrl; ?>"><?php echo $this->options->nickname?$this->options->nickname:$this->options->title; ?></a>
+                            <a class="user-name mt-2 <?php echo $color['link']; ?>" target="_blank" href="<?php echo $this->options->nicknameUrl?$this->options->nicknameUrl:$this->options->siteUrl; ?>"><?php echo $this->options->nickname?$this->options->nickname:$userInfo['screenName']; ?></a>
                             <p class="introduction mt-1"><?php echo $this->options->Introduction?$this->options->Introduction:$this->options->description; ?></p>
                         </div>
                     </div>
@@ -39,7 +40,7 @@ $components = explode(',', $components);
                             评论数
                         </div>
                         <div class="info float-left">
-                            <p class="quantity"><?php echo $this->options->birthday?round((time() - strtotime($this->options->birthday)) / 86400, 0) . '天':'0天'; ?></p>
+                            <p class="quantity"><?php echo $this->options->birthday?round((time() - strtotime($this->options->birthday)) / 86400, 0) . '天':round((time() - $userInfo['created']) / 86400, 0) . '天'; ?></p>
                             运行天数
                         </div>
                     </div>
@@ -90,8 +91,8 @@ $components = explode(',', $components);
                     <?php while ($latestArticles->next()): ?>
                         <li class="border-bottom">
                             <a target="<?php $this->options->sidebarLinkOpen(); ?>" class="<?php echo $color['link']; ?>" href="<?php $latestArticles->permalink(); ?>">
-                                <?php if ($this->options->headerImage && in_array('sidebarBlock', $this->options->headerImage)): ?>
-                                    <?php $img = postImg($latestArticles); ?>
+                                <?php if (is_array($this->options->headerImage) && in_array('sidebarBlock', $this->options->headerImage)): ?>
+                                    <?php $img = postImg($latestArticles, $this->options->headerImageUrl); ?>
                                     <?php if ($img): ?>
                                         <div class="article-img" style="background-image: url(<?php echo $img; ?>);" aria-label="<?php $latestArticles->title(); ?>的头图"></div>
                                     <?php endif; ?>
@@ -139,7 +140,17 @@ $components = explode(',', $components);
             <section class="category border <?php echo in_array('HideCategory', $sidebarM)?$hideClass:''; ?> <?php echo $rounded; ?>">
                 <h4>文章分类</h4>
                 <ul class="list-group list-group-flush" aria-label="文章分类">
-                    <?php $this->widget('Widget_Metas_Category_List')->parse('<li class="d-flex justify-content-between align-items-center border-bottom indentation-{parent}"><a target="' . $this->options->sidebarLinkOpen . '" data-toggle="tooltip" data-placement="top" class="' . $color['link'] . '" href="{permalink}" title="{description}">{name}</a><span class="badge badge-pill ' . $color['listTag'] . '">{count}</span></li>'); ?>
+                    <?php $this->widget('Widget_Metas_Category_List')->to($category); ?>
+                    <?php while ($category->next()): ?>
+                        <li class="d-flex justify-content-between align-items-center border-bottom indentation-<?php $category->parent(); ?>">
+                            <a target="<?php $this->options->sidebarLinkOpen(); ?>" data-toggle="tooltip" data-placement="top" href="<?php $category->permalink(); ?>" class="<?php echo $color['link']; ?>" title="<?php if ($category->parent > 0) echo getParentCategory($category->parent) . ' 下的子分类 ' ?><?php $category->description(); ?>">
+                                <?php echo $category->name(); ?>
+                            </a>
+                            <span class="badge badge-pill <?php echo $color['listTag']; ?>">
+                                <?php $category->count(); ?>
+                            </span>
+                        </li>
+                    <?php endwhile; ?>
                 </ul>
             </section>
         <?php endif; ?>
