@@ -1,6 +1,4 @@
 <?php if (!defined('__TYPECHO_ROOT_DIR__')) exit;
-$color = color($this->options->color);
-$rounded = $this->options->rounded == 'rightAngle'?'rounded-0':'';  //  获取元素风格设置
 $GLOBALS['page'] = 'post';
 
 //  点赞
@@ -19,9 +17,9 @@ $this->need('components/header.php');
         <nav aria-label="路径" class="breadcrumb-nav">
             <ol class="breadcrumb m-0 p-0">
                 <li class="breadcrumb-item">
-                    <a href="<?php $this->options->siteUrl(); ?>" class="<?php echo $color['link']; ?>">首页</a>
+                    <a href="<?php $this->options->siteUrl(); ?>">首页</a>
                 </li>
-                <li class="breadcrumb-item <?php echo $color['link']; ?>">
+                <li class="breadcrumb-item">
                     <?php $this->category(' '); ?>
                 </li>
                 <li tabindex="0" class="breadcrumb-item active" aria-current="page"><?php $this->title(); ?></li>
@@ -30,7 +28,7 @@ $this->need('components/header.php');
     <?php endif; ?>
     <div class="row">
         <div class="col-md-12 col-lg-8 col-sm-12 article-page content-area">
-            <main class="<?php echo $rounded; ?>">
+            <main class="mwordstar-block">
                 <header class="entry-header">
                     <h1 class="entry-title p-name" itemprop="name headline">
                         <a itemprop="url" href="<?php $this->permalink(); ?>" rel="bookmark"><?php $this->title(); ?></a>
@@ -45,55 +43,79 @@ $this->need('components/header.php');
                 <div class="article-info clearfix border-bottom border-top" role="group" aria-label="文章信息">
                     <!--时间-->
                     <div class="info">
-                        <i class="icon-calendar icon <?php echo $color['link']; ?>" aria-hidden="true"></i>
-                        <span class="<?php echo $color['link']; ?>" data-toggle="tooltip" data-placement="top" tabindex="0" title="发布日期：<?php $this->date('Y年m月d日'); ?>"><?php $this->date('Y年m月d日'); ?></span>
+                        <i class="icon-calendar icon" aria-hidden="true"></i>
+                        <span data-toggle="tooltip" data-placement="top" tabindex="0" title="发布日期：<?php $this->date('Y年m月d日'); ?>"><?php $this->date('Y年m月d日'); ?></span>
                     </div>
                     <!--作者-->
                     <div class="info">
-                        <i class="icon-user icon <?php echo $color['link']; ?>" aria-hidden="true"></i>
-                        <a class="<?php echo $color['link']; ?>" data-toggle="tooltip" data-placement="top" href="<?php $this->author->permalink(); ?>" title="作者：<?php $this->author(); ?>"><?php $this->author(); ?></a>
+                        <i class="icon-user icon" aria-hidden="true"></i>
+                        <a data-toggle="tooltip" data-placement="top" href="<?php $this->author->permalink(); ?>" title="作者：<?php $this->author(); ?>"><?php $this->author(); ?></a>
                     </div>
                     <!--阅读量-->
                     <div class="info">
-                        <i class="icon-eye icon <?php echo $color['link']; ?>" aria-hidden="true"></i>
-                        <span class="<?php echo $color['link']; ?>" data-toggle="tooltip" data-placement="top" tabindex="0" title="阅读量：<?php echo getPostView($this); ?>"><?php echo getPostView($this); ?></span>
+                        <i class="icon-eye icon" aria-hidden="true"></i>
+                        <span data-toggle="tooltip" data-placement="top" tabindex="0" title="阅读量：<?php echo getPostView($this); ?>"><?php echo getPostView($this); ?></span>
                     </div>
                     <!--评论-->
                     <div class="info">
-                        <i class="icon-bubbles2 icon <?php echo $color['link']; ?>" aria-hidden="true"></i>
-                        <a class="<?php echo $color['link']; ?>" data-toggle="tooltip" data-placement="top" title="评论" href="<?php $this->permalink() ?>#comments"><?php $this->commentsNum('%d 评论'); ?></a>
+                        <i class="icon-bubbles2 icon" aria-hidden="true"></i>
+                        <a data-toggle="tooltip" data-placement="top" title="评论" href="<?php $this->permalink() ?>#comments"><?php $this->commentsNum('%d 评论'); ?></a>
                     </div>
                     <!--分类-->
                     <div class="info category">
-                        <i class="icon-folder-open icon <?php echo $color['link']; ?>" aria-hidden="true" data-color="<?php echo $color['link']; ?>"></i>
+                        <i class="icon-folder-open icon" aria-hidden="true"></i>
                         <?php $this->category(''); ?>
                     </div>
                     <!--标签-->
-                    <div class="info tags" data-color="<?php echo $color['link']; ?>">
-                        <i class="icon-price-tags icon <?php echo $color['link']; ?>" aria-hidden="true"></i>
+                    <div class="info tags">
+                        <i class="icon-price-tags icon" aria-hidden="true"></i>
                         <?php $this->tags(' ', true, '暂无标签'); ?>
                     </div>
                     <?php if ($this->user->hasLogin()): ?>
                         <div class="info d-sm-none d-none d-md-inline d-lg-inline d-xl-inline">
-                            <i class="icon icon-pencil <?php echo $color['link']; ?>"></i>
-                            <a class="<?php echo $color['link']; ?>" href="<?php echo $this->options->siteUrl . 'admin/write-post.php?cid=' . $this->cid; ?>" >编辑</a>
+                            <i class="icon icon-pencil"></i>
+                            <a href="<?php echo $this->options->siteUrl . 'admin/write-post.php?cid=' . $this->cid; ?>" >编辑</a>
                         </div>
                     <?php endif; ?>
                 </div>
                 <!--文章内容-->
                 <article>
                     <?php if (is_numeric($this->fields->expired) && (int)$this->fields->expired > 0 && $this->created + (int)$this->fields->expired * 86400 < time()): ?>
-                        <div class="alert alert-info" role="alert">这篇文章发布于 <?php echo getDays($this->created, time()); ?> 天前，其中的信息可能已经有所发展或是发生改变！</div>
+                        <div class="alert warning-info" role="alert">这篇文章发布于 <?php echo getDays($this->created, time()); ?> 天前，其中的信息可能已经有所发展或是发生改变！</div>
                     <?php endif; ?>
-                    <div data-target="<?php $this->options->postLinkOpen(); ?>" data-color="<?php echo $color['link']; ?>" class="post-content" data-code-line-num="<?php $this->options->codeLineNum(); ?>">
-                        <?php $directoryOptions = getDirectoryOptions($this->fields->directory, $this->options->directory); ?>
-                        <?php if (!$directoryOptions): ?>
-                            <?php $this->content(); ?>
-                        <?php else: ?>
-                            <?php articleDirectory($this->content, $directoryOptions); ?>
-                        <?php endif; ?>
+                    <div data-target="<?php $this->options->postLinkOpen(); ?>" class="post-content" data-code-line-num="<?php $this->options->codeLineNum(); ?>">
+                        <?php $GLOBALS['postPage'] = preg_split('/\[-page-]|<p>\[-page-]<\/p>/', $this->content); ?>
+                        <?php $postPageNum = isset($_GET['post-page'])?$_GET['post-page']:1; ?>
+                        <?php if (!isset($GLOBALS['postPage'][$postPageNum - 1])) $postPageNum = 1; ?>
+                        <?php $GLOBALS['post'] = articleDirectory($GLOBALS['postPage'][$postPageNum - 1]); ?>
+                        <?php echo $this->options->imagelazyloading == 'on'?replaceImgSrc($GLOBALS['post']['content']):$GLOBALS['post']['content']; ?>
                     </div>
-                    <div class="clearfix">
+                    <?php if (count($GLOBALS['postPage']) > 1): ?>
+                        <nav aria-label="文章分页" class="py-3 post-pagination">
+                            <ol class="pagination justify-content-center">
+                                <?php if ($postPageNum > 1): ?>
+                                    <li class="page-item">
+                                        <a href="<?php echo $this->permalink . '?post-page=' . ($postPageNum - 1); ?>" class="page-link previous-page" aria-label="上一页" title="上一页（左光标键）" data-toggle="tooltip" data-placement="top">
+                                            <i class="icon-chevron-left"></i>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                                <?php for ($i = 0;$i < count($GLOBALS['postPage']);$i ++): ?>
+                                    <li class="page-item <?php if ($i == $postPageNum - 1) echo 'active'; ?>">
+                                        <a href="<?php echo $this->permalink . '?post-page=' . ($i + 1); ?>" class="page-link" <?php if ($i == $postPageNum - 1) echo 'aria-current="page"'; ?>><?php echo $i + 1; ?></a>
+                                    </li>
+                                <?php endfor; ?>
+                                <?php if ($postPageNum < count($GLOBALS['postPage'])): ?>
+                                    <li class="page-item">
+                                        <a href="<?php echo $this->permalink . '?post-page=' . ($postPageNum + 1); ?>" class="page-link next-page" aria-label="下一页" title="下一页（右光标键）" data-toggle="tooltip" data-placement="top">
+                                            <i class="icon-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                            </ol>
+                        </nav>
+                    <?php endif; ?>
+                    <div class="clearfix" id="copyright-info">
                         <?php if ($this->options->modified == 'show'): ?>
                             <span class="float-xl-left float-lg-left float-md-left d-block" data-toggle="tooltip" data-placement="top" tabindex="0" title="发布时间：<?php $this->date('Y年m月d日'); ?>">最后编辑：<?php echo date('Y年m月d日', $this->modified);?></span>
                         <?php endif; ?>
@@ -101,19 +123,40 @@ $this->need('components/header.php');
                             <span tabindex="0" data-toggle="tooltip" data-placement="top" title="本文为原创文章，版权归 <?php $this->options->title(); ?> 所有，转载请联系博主获得授权。" class="mt-1 mt-sm-1 mt-md-0 mt-lg-0 mt-lg-0 mt-xl-0 float-xl-right float-lg-right float-md-right d-block">©著作权归作者所有</span>
                         <?php endif; ?>
                     </div>
-                    <div class="pt-3 text-center">
+                </article>
+                <div class="mb-3 agree-and-share">
+                    <div class="text-center">
                         <?php $agree = $this->hidden?array('agree' => 0, 'recording' => true):agreeNum($this->cid); ?>
-                        <button <?php echo $agree['recording']?'disabled':''; ?> data-cid="<?php echo $this->cid; ?>" data-url="<?php $this->permalink(); ?>" id="agree-btn" type="button" class="btn mr-2 <?php echo $color['btnOutline']; ?> <?php echo $rounded; ?>">
+                        <button <?php echo $agree['recording']?'disabled':''; ?> data-cid="<?php echo $this->cid; ?>" data-url="<?php $this->permalink(); ?>" id="agree-btn" type="button" class="btn mr-2">
                             <i class="icon-thumbs-up"></i>
                             <span>赞</span>
                             <span class="agree-num"><?php echo $agree['agree']; ?></span>
                         </button>
-                        <button id="share-btn" data-url="<?php $this->permalink(); ?>" type="button" class="btn <?php echo $color['btnOutline']; ?> <?php echo $rounded; ?>" data-toggle="modal" data-target="#share-box">
+                        <button id="share-btn" data-url="<?php $this->permalink(); ?>" type="button" class="btn" data-toggle="collapse" data-target="#qr-link" aria-expanded="false" aria-controls="collapseExample">
                             <i class="icon-share2"></i>
                             <span>分享</span>
                         </button>
                     </div>
-                </article>
+                    <div class="collapse" id="qr-link">
+                        <div class="mt-4 qr-link">
+                            <p class="text-center mb-2">用手机扫描下方二维码可在手机上浏览和分享</p>
+                            <div class="text-center">
+                                <div id="qr" class="mb-1"></div>
+                                <div class="link-box">
+                                    <a class="text-danger" href="https://service.weibo.com/share/share.php?url=<?php $this->permalink(); ?>&title=<?php $this->title(); ?>" target="_blank" rel="external nofollow" aria-label="分享到新浪微博" title="分享到新浪微博" data-toggle="tooltip" data-placement="top">
+                                        <i class="icon-sina-weibo mr-1"></i>
+                                    </a>
+                                    <a class="text-info" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=<?php $this->permalink(); ?>&title=<?php $this->title(); ?>&site=<?php $this->options->siteUrl(); ?>&summary=<?php $this->fields->summaryContent?$this->fields->summaryContent():$this->excerpt($this->options->summary, '...'); ?>" target="_blank" rel="external nofollow" aria-label="分享到QQ空间" title="分享到QQ空间" data-toggle="tooltip" data-placement="top">
+                                        <i class="icon-qzone-logo mr-1"></i>
+                                    </a>
+                                    <a class="text-info" href="https://twitter.com/intent/tweet?url=<?php $this->permalink(); ?>&text=<?php $this->title(); ?>" target="_blank" rel="external nofollow" aria-label="分享到Twitter" title="分享到Twitter" data-toggle="tooltip" data-placement="top">
+                                        <i class="icon-twitter mr-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!--上一篇和下一篇文章的导航-->
                 <nav class="post-navigation border-top">
                     <div class="row">
@@ -131,32 +174,6 @@ $this->need('components/header.php');
             </main>
         </div>
         <?php $this->need('components/sidebar.php'); ?>
-    </div>
-</div>
-<div class="modal fade bd-example-modal-sm" id="share-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content <?php echo $rounded; ?>">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">分享</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="关闭">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <div id="qrcode"></div>
-                <p>用微信扫一扫点击右上角分享</p>
-                <div>
-                    <a target="_blank" href="https://service.weibo.com/share/share.php?url=<?php $this->permalink(); ?>&title=<?php $this->title(); ?>" class="btn btn-danger btn-block <?php echo $rounded; ?>">
-                        <i class="icon-sina-weibo"></i>
-                        <span>分享到新浪微博</span>
-                    </a>
-                    <a target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=<?php $this->permalink(); ?>&title=<?php echo $this->title(); ?>&site=<?php $this->options->siteUrl(); ?>&summary=<?php $this->fields->summaryContent?$this->fields->summaryContent():$this->excerpt($this->options->summary, '...'); ?>" class="btn btn-primary btn-block <?php echo $rounded; ?>">
-                        <i class="icon-qzone-logo"></i>
-                        <span>分享到QQ空间</span>
-                    </a>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 <?php require_once 'components/max-img.php'; ?>

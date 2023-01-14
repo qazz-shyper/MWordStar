@@ -9,17 +9,6 @@
 $articleFontSize: 15px; //  文章字体大小
 $shadow: 0 1px 3px rgba(26, 26, 26, 0.1); //  区块阴影
 
-//  禁止滚动
-.stop-scrolling {
-  height: 100%;
-  overflow: hidden;
-}
-
-//  通用的头像样式
-.avatar {
-  background: #E0E0E0;
-}
-
 //  通用的文章信息样式
 @mixin articleInfo {
   padding: 10px 25px;
@@ -30,7 +19,6 @@ $shadow: 0 1px 3px rgba(26, 26, 26, 0.1); //  区块阴影
   }
   a,
   span {
-    color: #707281;
     font-size: 12px;
     line-height: 29px;
   }
@@ -39,7 +27,6 @@ $shadow: 0 1px 3px rgba(26, 26, 26, 0.1); //  区块阴影
   }
   .icon {
     margin-right: 4px;
-    color: #707281;
     font-size: 12px;
     line-height: 29px;
   }
@@ -90,12 +77,8 @@ $shadow: 0 1px 3px rgba(26, 26, 26, 0.1); //  区块阴影
 
 //  通用的文章列表样式
 @mixin post {
-  border: 1px solid #dedede;
-  background: #ffffff;
   margin-bottom: 30px;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: $shadow;
+  overflow: hidden;;
   //  文章头图
   .header-img {
     @include postThumbnail;
@@ -115,7 +98,6 @@ $shadow: 0 1px 3px rgba(26, 26, 26, 0.1); //  区块阴影
     padding: 20px;
     p {
       font-size: $articleFontSize;
-      color: #444444;
       line-height: 25px;
     }
   }
@@ -149,6 +131,7 @@ $shadow: 0 1px 3px rgba(26, 26, 26, 0.1); //  区块阴影
     }
   }
 }
+
 //  通用的文章列表样式手机版
 @mixin postM {
   //  文章头图
@@ -189,6 +172,9 @@ $shadow: 0 1px 3px rgba(26, 26, 26, 0.1); //  区块阴影
   img {
     max-width: 100%;
     cursor: zoom-in;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
   }
   //  文章标题
   h1,
@@ -199,6 +185,11 @@ $shadow: 0 1px 3px rgba(26, 26, 26, 0.1); //  区块阴影
   h6 {
     font-weight: 700;
     color: #444444;
+    > code {
+      background: #ededed;
+      color: #333333;
+      padding: 0 4px;
+    }
   }
   h1 {
     font-size: 30px;
@@ -227,33 +218,6 @@ $shadow: 0 1px 3px rgba(26, 26, 26, 0.1); //  区块阴影
     color: #686868;
     font-style: italic;
   }
-  //  代码高亮区域
-  code {
-    font-size: $articleFontSize;
-  }
-  pre {
-    position: relative;
-    &:hover .copy-code-btn {
-      display: block;
-    }
-    .line-box {
-      width: 40px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      padding-top: 12px;
-      div {
-        line-height: 22.5px;
-        height: 22.5px;
-        padding-right: 9px;
-        font-size: 14px;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-    }
-  }
   table td {
     min-width: 90px;
   }
@@ -261,60 +225,19 @@ $shadow: 0 1px 3px rgba(26, 26, 26, 0.1); //  区块阴影
     color: #444444;
     line-height: 25px;
   }
-  a {
-    color: #6c757d;
-  }
   li {
     color: #444444;
     padding: 2px 0;
   }
   p > code,
   li > code,
+  th > code,
   td > code {
     background: #ededed;
     color: #333333;
     padding: 0 4px;
   }
 }
-
-//  标签云和平路回复链接的配色
-//  dark
-@mixin dark {
-  border: 1px solid #6c757d;
-  color: #6c757d;
-}
-@mixin darkHover {
-  background: #6c757d;
-  color: #ffffff;
-}
-//  success
-@mixin success {
-  border: 1px solid #28a745;
-  color: #28a745;
-}
-@mixin successHover {
-  background: #28a745;
-  color: #ffffff;
-}
-//  primary
-@mixin primary {
-  border: 1px solid #007bff;
-  color: #007bff;
-}
-@mixin primaryHover {
-  background: #007bff;
-  color: #ffffff;
-}
-//  info
-@mixin info {
-  border: 1px solid #17a2b8;
-  color: #17a2b8;
-}
-@mixin infoHover {
-  background: #17a2b8;
-  color: #ffffff;
-}
-
 
 //  代码高亮的主题样式
 //  stackoverflow-light 样式
@@ -359,29 +282,72 @@ $shadow: 0 1px 3px rgba(26, 26, 26, 0.1); //  区块阴影
   }
   @import "sunburst.min";
 }
-//  包含行号的样式
-.post-content[data-code-line-num="show"] {
+.enable-highlight {
+  // 通用的代码高亮样式
   pre {
+    position: relative;
+    &:hover .copy-code-btn {
+      display: block;
+    }
+    .line-box {
+      width: 40px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding-top: 12px;
+      div {
+        line-height: 22.5px;
+        height: 22.5px;
+        padding-right: 9px;
+        font-size: 14px;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+    }
     code {
-      padding: 12px 10px;
+      font-size: $articleFontSize;
+      &::-webkit-scrollbar {
+        height: 12px;
+        background: #F1F1F1;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #A8A8A8;
+      }
+    }
+    .copy-code-btn {
+      border-color: #BBBBBB;
+      color: #BBBBBB;
+      &:hover {
+        background-color: #BBBBBB;
+        color: #FFFFFF;
+      }
+    }
+  }
+  //  包含行号的样式
+  .post-content[data-code-line-num="show"] {
+    pre {
+      code {
+        padding: 12px 10px;
+      }
+    }
+  }
+  //  不包含行号的样式
+  .post-content[data-code-line-num="hide"] {
+    pre {
+      code {
+        padding: 12px 16px;
+      }
     }
   }
 }
-//  不包含行号的样式
-.post-content[data-code-line-num="hide"] {
-  pre {
-    code {
-      padding: 12px 16px;
-    }
-  }
-}
-
 
 body {
   background: #e4e4e4;
 }
 a {
-  transition: 0.4s;
+  transition: 0.3s;
 }
 
 //  顶部导航条
@@ -390,43 +356,38 @@ header {
   z-index: 999;
   .navbar {
     box-shadow: 0 1px 3px rgba(26, 26, 26, 0.1);
-    //  亮色的搜索按钮
-    .search-btn-light {
-      background: #f8f8f8;
-      border: 1px solid #d3d3d3;
+    // 切换配色模式的按钮
+    #change-color-btn {
+      width: 34px;
+      height: 34px;
+      color: #FFFFFF;
+      background-color: rgba(255, 255, 255, 0.5);
+      i {
+        font-size: 18px;
+        line-height: 34px;
+      }
     }
-    .search-btn-light:hover {
-      background: #f0f0f0;
+    // 切换配色模式的提示
+    #change-color-text {
+      color: #FFFFFF;
     }
-    .search-btn-light:focus {
-      background: #f0f0f0;
+    // 搜索区域
+    .search-form {
+      input:focus {
+        box-shadow: none;
+      }
+      //  亮色的搜索按钮
+      button {
+        background: #f8f8f8;
+        border: 1px solid #d3d3d3;
+      }
+      button:hover {
+        background: #f0f0f0;
+      }
+      button:focus {
+        background: #f0f0f0;
+      }
     }
-  }
-}
-
-// 代码拷贝按钮
-.copy-code-btn {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  display: none;
-}
-
-//  面包屑导航
-.breadcrumb {
-  background: none;
-  //  面包屑导航的链接配色
-  .text-primary a {
-    color: #007bff;
-  }
-  .text-secondary a {
-    color: #6c757d;
-  }
-  .text-success a {
-    color: #28a745;
-  }
-  .text-info a {
-    color: #17a2b8;
   }
 }
 
@@ -446,10 +407,7 @@ header {
 .sidebar {
   section {
     margin-left: 20px;
-    background: #ffffff;
-    box-shadow: $shadow;
     margin-bottom: 30px;
-    border-radius: 4px;
     //  侧边栏个区域的标题
     h4 {
       line-height: 22px;
@@ -526,51 +484,10 @@ header {
     .tag-list {
       padding: 0 18px 18px 18px;
       .tag-link {
-        color: #333333;
         margin: 0 4px 4px 0;
         font-size: 12px;
         border-radius: 4px;
         font-weight: 500;
-      }
-      //  dark
-      .tag-dark {
-        @include dark;
-      }
-      .tag-dark:hover {
-        @include darkHover;
-      }
-      .tag-dark:focus {
-        @include darkHover;
-      }
-      //  primary
-      .tag-primary {
-        @include primary;
-      }
-      .tag-primary:hover {
-        @include primaryHover;
-      }
-      .tag-primary:focus {
-        @include primaryHover;
-      }
-      //  info
-      .tag-info {
-        @include info;
-      }
-      .tag-info:hover {
-        @include infoHover;
-      }
-      .tag-info:focus {
-        @include infoHover;
-      }
-      //  success
-      .tag-success {
-        @include success;
-      }
-      .tag-success:hover {
-        @include successHover;
-      }
-      .tag-success:focus {
-        @include successHover;
       }
     }
   }
@@ -659,6 +576,25 @@ header {
       line-height: 40px;
     }
   }
+  // 目录
+  .directory {
+    padding: 0 18px;
+    > .article-directory {
+      overflow-y: auto;
+      padding: 0;
+      &::-webkit-scrollbar {
+        width: 6px;
+        background: #F1F1F1;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #A8A8A8;
+      }
+      .article-directory {
+        margin-bottom: 0 !important;
+        padding-bottom: 0;
+      }
+    }
+  }
 }
 
 //  文章分页区域
@@ -671,44 +607,6 @@ header {
     a {
       border-radius: unset;
     }
-  }
-  //  dark 和 light 配色
-  .dark a,
-  .light a {
-    color: #6c757d !important;
-  }
-  .dark .active a:hover,
-  .light .active a:hover {
-    background: #5a6268;
-  }
-  .dark .active a,
-  .light .active a {
-    background: #6c757d;
-  }
-  //  info 配色
-  .info a {
-    color: #17a2b8 !important;
-  }
-  .info .active a {
-    background: #17a2b8;
-  }
-  .info .active a:hover {
-    background: #138496;
-  }
-  //  success 配色
-  .success a {
-    color: #28a745 !important;
-  }
-  .success .active a {
-    background: #28a745;
-  }
-  .success .active a:hover {
-    background: #218838;
-  }
-  //  当前页的文字颜色
-  .active a {
-    color: #ffffff !important;
-    border: 0 !important;
   }
 }
 
@@ -730,10 +628,6 @@ footer {
 .article-page {
   margin-top: 15px;
   main {
-    border: 1px solid #dedede;
-    background: #ffffff;
-    box-shadow: $shadow;
-    border-radius: 4px;
     margin-bottom: 30px;
     .entry-header {
       @include entryHeader;
@@ -753,11 +647,20 @@ footer {
     }
     article {
       padding: 20px;
+      // 失效警示信息
+      .warning-info {
+        background-color: #E5E6EB;
+      }
       //  文章页的文章内容
       .post-content {
         margin-top: 10px;
         width: 100%;
         @include postContent;
+        .load-img {
+          width: 100%;
+          display: block;
+          background-color: #F0F0F0;
+        }
         .protected {
           p {
             text-align: center;
@@ -780,62 +683,20 @@ footer {
       }
     }
   }
-}
-
-//  文章目录
-#directory-box {
-  background: #F8F9FA;
-  display: inline-block;
-  ul {
-    list-style: none;
-    .directory-num {
-      color: #444444;
+  // 文章二维码和分享链接
+  #qr-link {
+    .link-box {
+      margin: 0 auto;
+      width: 96px;
+      display: flex;
+      justify-content: space-between;
+      a {
+        font-size: 20px;
+        &:hover {
+          text-decoration: none;
+        }
+      }
     }
-  }
-  > ul {
-    padding-left: 0;
-    ul {
-      padding-left: 32px;
-    }
-  }
-}
-
-//  图片灯箱
-#max-img {
-  .mask-layer {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: 1030;
-    display: none;
-  }
-  img {
-    position: absolute;
-    cursor: move;
-    display: none;
-    z-index: 1031;
-  }
-  #img-control {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    opacity: 0.8;
-    z-index: 1033;
-    display: none;
-  }
-  //  图片描述
-  #img-info {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    font-size: 16px;
-    text-shadow: 0 1px #333333, 1px 0 #333333, -1px 0 #333333, 0 -1px #333333;
-    z-index: 1203;
-    display: none;
   }
 }
 
@@ -863,6 +724,7 @@ footer {
   position: absolute;
   z-index: 100;
   display: none;
+  background-color: #ffffff;
   //  表情选择区
   #emoji-classification {
     overflow-x: auto;
@@ -891,19 +753,6 @@ footer {
       }
     }
   }
-}
-
-//  评论区引用头像
-.pingback {
-  background: #488CB8;
-  text-align: center;
-  font-size: 14px;
-  color: #ffffff;
-  font-weight: 700;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 //  评论区
@@ -967,39 +816,6 @@ footer {
             text-align: center;
             border-radius: 4px;
           }
-          a:hover {
-            color: #ffffff;
-          }
-          //  dark 和 light
-          .dark a,
-          .light a {
-            @include dark;
-          }
-          .dark a:hover,
-          .light a:hover {
-            @include darkHover;
-          }
-          //  primary
-          .primary a {
-            @include primary;
-          }
-          .primary a:hover {
-            @include primaryHover;
-          }
-          //  info
-          .info a {
-            @include info;
-          }
-          .info a:hover {
-            @include infoHover;
-          }
-          //  success
-          .success a {
-            @include success;
-          }
-          .success a:hover {
-            @include successHover;
-          }
         }
         //  评论内容
         .comment-content {
@@ -1028,7 +844,7 @@ footer {
     //  评论内容输入框
     #textarea {
       width: 100%;
-      height: 120px;
+      height: 150px;
       display: block;
     }
     //  发表评论的用户
@@ -1063,12 +879,8 @@ footer {
   margin-top: 15px;
   .archives {
     .page-header {
-      border: 1px solid #dedede;
-      background: #ffffff;
       margin-bottom: 30px;
       padding: 20px;
-      box-shadow: $shadow;
-      border-radius: 4px;
       h1 {
         font-size: 30px;
         font-weight: 700;
@@ -1209,22 +1021,18 @@ footer {
   }
 }
 
+// 独立页面 - 分类目录
+.category-page .category-list {
+  list-style: none;
+  li {
+    align-items: center;
+  }
+}
+
 .archive-page,
 .post-page,
 .link-page {
   margin-bottom: 20px;
-}
-
-//  返回顶部的按钮
-.to-top {
-  width: 40px;
-  height: 40px;
-  background: #ffffff;
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  border: 1px solid #d3d3d3;
-  opacity: 0.7;
 }
 
 //  >= 1200
@@ -1240,6 +1048,10 @@ footer {
         margin-left: 52px;
       }
     }
+  }
+  // 文章页图片的默认尺寸
+  .load-img {
+    height: 350px;
   }
 }
 //  >= 992 且 <= 1199
@@ -1263,6 +1075,10 @@ footer {
       }
     }
   }
+  // 文章页图片的默认尺寸
+  .load-img {
+    height: 350px;
+  }
 }
 //  >= 768 且 <=991
 @media screen and (min-width: 768px) and (max-width: 991px) {
@@ -1284,6 +1100,10 @@ footer {
         margin-left: 52px;
       }
     }
+  }
+  // 文章页图片的默认尺寸
+  .load-img {
+    height: 350px;
   }
 }
 //  >= 576 且 <= 767
@@ -1310,6 +1130,10 @@ footer {
         margin-left: 22px;
       }
     }
+  }
+  // 文章页图片的默认尺寸
+  .load-img {
+    height: 300px;
   }
 }
 //  < 575
@@ -1346,6 +1170,12 @@ footer {
   .container .col-md-12 {
     padding: 0 10px;
   }
+
+  // 文章页图片的默认尺寸
+  .load-img {
+    height: 200px;
+  }
+
   //  文章搜索和分类页
   .archives-list {
     .archives {
@@ -1402,3 +1232,10 @@ footer {
     }
   }
 }
+
+@import "universal";
+@import "light-color";
+@import "primary-color";
+@import "info-color";
+@import "success-color";
+@import "dark-color";

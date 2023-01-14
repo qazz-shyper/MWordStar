@@ -4,28 +4,19 @@
 
 我现在使用的主题是 [Facile](https://github.com/changbin1997/Facile) ，有兴趣的话也可以访问 [我的博客](https://www.misterma.com/) 或 [Github](https://github.com/changbin1997/Facile) 查看。
 
-主题演示地址：[https://changbin1997.github.io/MWordStar-Light/web/](https://changbin1997.github.io/MWordStar-Light/web/)
+主题演示地址：[https://changbin1997.github.io/MWordStar/web/](https://changbin1997.github.io/MWordStar/web/)
 
-主题包含几套不同风格的配色，您可以在主题设置中切换，下面是各种配色的演示地址：
-
-* [MWordStar-Light](https://changbin1997.github.io/MWordStar-Light/web/)
-* [MWordStar-info](https://changbin1997.github.io/MWordStar-info/web/)
-* [MWordStar-Primary](https://changbin1997.github.io/MWordStar-Primary/web/)
-* [MWordStar-Success](https://changbin1997.github.io/MWordStar-Success/web/)
-
-Light 和 dark 配色只是顶部的导航栏不一样，其他地方都是一样的，可以参考下面的截图。主题演示站只是静态页面，不能发评论和点赞。
+主题演示站只是静态页面，不能发评论和点赞。
 
 主题下载地址：[https://github.com/changbin1997/MWordStar/releases](https://github.com/changbin1997/MWordStar/releases)
 
 主题使用说明：[https://mwordstar.misterma.com/](https://mwordstar.misterma.com/)
 
-留言板：[https://www.misterma.com/msg.html](https://www.misterma.com/msg.html)
-
-遇到问题可以到留言板留言。
+目前主题没有相关的交流群，在使用过程中遇到问题可以直接到 [我的博客](https://www.misterma.com/archives/812/) 留言，也可以到主题 Github 的 [issues](https://github.com/changbin1997/MWordStar/issues) 反馈，我的博客和 Github issues 都有回复邮件通知。
 
 下面是主题首页截图：
 
-![MWordStar主题首页截图1](screenshot/16043686604695.png)
+![MWordStar主题首页截图1](screenshot/home.png)
 
 主题元素包含圆角和直角两种风格，您可以根据喜好在主题外观设置中切换，下面是直角风格的首页截图：
 
@@ -39,24 +30,30 @@ Light 和 dark 配色只是顶部的导航栏不一样，其他地方都是一�
 
 ![MWordStar大头图和小头图搭配使用的截图](screenshot/mini-header-image2.png)
 
-不同配色的截图：
+深色模式：
 
-![MWordStar不同配色的截图](screenshot/16043687256363.jpg)
+![MWordStar深色模式截图](screenshot/dark-color.png)
+
+主题目前包含 6 种配色：
+
+![MWordStar 6种不同配色的截图](screenshot/all-color.png)
 
 ## 特点和功能
 
 * 响应式设计
 * 无障碍适配（Accessibility）
-* 5 种不同风格的配色
+* 6 种不同风格的配色
 * 两种不同风格的元素
 * 多套自定义页面模板
 * 代码高亮
 * 丰富的设置选项
 * 良好的 SEO 优化
+* 详细的图表统计
 * 自带点赞功能
 * 丰富的侧边栏组件
 * 评论区自带 Emoji 表情面板
 * 自动根据文章中的标题生成章节目录
+* 支持图片懒加载
 * 长期维护
 * 详细的 [使用说明](https://mwordstar.misterma.com/)（必看）
 
@@ -195,12 +192,21 @@ Emoji 表情面板也进行了无障碍适配，可支持键盘访问和屏幕�
 
 主题使用 [MIT License](https://github.com/changbin1997/MWordStar/blob/master/LICENSE) 开源。
 
-如果您在使用这个主题时遇到 Bug 或有任何问题和建议都可以在 [博客评论区](https://www.misterma.com/archives/812/#comments) 留言，也可以在 Github 的 [issues](https://github.com/changbin1997/MWordStar/issues) 反馈。
+## 打赏支持
 
-## 赞助
-
-如果感觉主题用着还可以的话，也可以扫描下方的二维码来赞助本项目，金额随意：
+如果感觉主题用着还可以的话，也可以扫描下方的二维码打赏，金额随意：
 
 ![支付宝和微信的收款码](screenshot/qr-code.jpeg)
 
 非常感谢 ❤️
+
+下面是 [MWordStar](https://github.com/changbin1997/MWordStar) 和 [Facile](https://github.com/changbin1997/Facile) 两个主题的打赏记录：
+
+| 打赏者 | 金额（人民币） | 时间                |
+| ------ | -------------- | ------------------- |
+| *伟    | 1.00           | 2022 年 8 月 12 日  |
+| S*r    | 1.00           | 2022 年 11 月 17 日 |
+| *玥    | 10.00          | 2022 年 11 月 27 日 |
+| 0*7    | 1.00           | 2022 年 12 月 17 日 |
+
+如果打赏者不希望出现在打赏记录可以发邮件到 email@misterma.com 要求删除。

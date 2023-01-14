@@ -1,15 +1,15 @@
 <?php
 /**
- * 标签云
+ * 分类目录
  * @package custom
  */
 
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
-$GLOBALS['page'] = 'page-tag';
+$GLOBALS['page'] = 'page-category';
 $this->need('components/header.php');
 ?>
 
-<div class="container tag-page main-content mb-0">
+<div class="container category-page main-content mb-0">
     <?php if ($this->options->breadcrumb == 'on'): ?>
         <nav aria-label="路径" class="breadcrumb-nav">
             <ol class="breadcrumb m-0 p-0">
@@ -33,18 +33,18 @@ $this->need('components/header.php');
                 </header>
                 <article>
                     <div class="post-content">
-                        <?php $this->widget('Widget_Metas_Tag_Cloud', 'sort=mid&ignoreZeroCount=1&desc=0')->to($tags); ?>
-                        <?php if($tags->have()): ?>
-                            <div class="row">
-                                <?php while ($tags->next()): ?>
-                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6 my-1">
-                                        <a role="listitem" target="<?php $this->options->sidebarLinkOpen(); ?>" data-toggle="tooltip" data-placement="top" href="<?php $tags->permalink(); ?>" rel="tag" title="<?php $tags->count(); ?> 篇文章"><?php $tags->name(); ?> (<?php $tags->count(); ?>)</a>
-                                    </div>
-                                <?php endwhile; ?>
-                            </div>
-                        <?php else: ?>
-                            <p class="text-center pb-2"><?php _e('没有任何标签'); ?></p>
-                        <?php endif; ?>
+                        <p>共包含 <?php echo categoryCount(); ?> 个分类</p>
+                        <?php $this->widget('Widget_Metas_Category_List')->to($category); ?>
+                        <ul class="category-list pl-0 pl-2">
+                            <?php while ($category->next()): ?>
+                                <li>
+                                    <i class="icon-folder-open icon mr-1"></i>
+                                    <a data-toggle="tooltip" data-placement="top" href="<?php $category->permalink(); ?>" title="<?php if ($category->parent > 0) echo getParentCategory($category->parent) . ' 下的子分类'; ?> <?php $category->description(); ?>">
+                                        <?php echo $category->name(); ?>(<?php $category->count(); ?>)
+                                    </a>
+                                </li>
+                            <?php endwhile; ?>
+                        </ul>
                     </div>
                 </article>
             </main>
